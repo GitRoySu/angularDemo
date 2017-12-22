@@ -1,21 +1,29 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
 import * as _ from 'lodash';
 
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 
 import { Hero } from '../hero';
 import { HEROES } from '../mockHeroes';
+
+
 
 @Injectable()
 export class HeroService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    private heroesUrl = 'app/heroes';
+    // private heroesUrl = 'app/heroes';
+    private heroesUrl = 'https://easy-mock.com/mock/5a387f8f75a0b747456a9959/example/heroes';
 
     constructor(
-
+        private httpClient: HttpClient,
+        private http: Http
     ) { }
 
     // getHeroes(): Promise<Hero[]> {
@@ -62,11 +70,15 @@ export class HeroService {
     //     console.error('An error occurred', error); // for demo purposes only
     //     return Promise.reject(error.message || error);
     // }
-    getHeroes(): Promise<Hero[]> {
-        return Promise.resolve(HEROES);
+
+    getHeroes(): Observable<any> {
+        return this.http.get(this.heroesUrl).map(res => {
+            return res.json();
+        });
     }
+
     getHero(id: number) {
         return this.getHeroes()
-            .then(heroes => heroes.find(hero => hero.id === id));
+            .subscribe(heroes => heroes.find(hero => hero.id === id));
     }
 }

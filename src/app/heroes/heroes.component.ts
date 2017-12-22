@@ -1,6 +1,4 @@
-// import { Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,24 +15,28 @@ import { HeroService } from '../service/hero.service';
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
   selectedHero: Hero;
-  private Url = '';
+  data: any;
+  private Url = 'https://easy-mock.com/mock/5a387f8f75a0b747456a9959/example/heroes';
   constructor(
     private heroService: HeroService,
     private router: Router,
     private http: HttpClient
   ) { }
-  ngOnInit() {
+
+  ngOnInit(): void {
     this.getHeroes();
-    console.log(111);
-    this.http.get('https://easy-mock.com/mock/5a387f8f75a0b747456a9959/example/heroes')
-      .subscribe(res => console.log(res));
   }
+  getHeroes(): void {
+    this.heroService.getHeroes()
+      .subscribe((data) => {
+        console.log(data);
+        this.heroes = data['data']['heroes'];
+      });
+  }
+
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
     console.log(this.selectedHero);
-  }
-  getHeroes(): void {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
   }
   gotoDetail(): void {
     this.router.navigate(['/detail', this.selectedHero.id]);
