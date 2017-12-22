@@ -18,13 +18,23 @@ import { HEROES } from '../mockHeroes';
 export class HeroService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    // private heroesUrl = 'app/heroes';
     private heroesUrl = 'https://easy-mock.com/mock/5a387f8f75a0b747456a9959/example/heroes';
 
     constructor(
         private httpClient: HttpClient,
         private http: Http
     ) { }
+
+    getHeroes(): Observable<any> {
+        return this.httpClient.get(this.heroesUrl).map(res => {
+            return res['data']['heroes'];
+        });
+    }
+
+    getHero(id: number): Observable<any> {
+        return this.getHeroes()
+            .map(heroes => heroes.find(hero => hero.id === id));
+    }
 
     // getHeroes(): Promise<Hero[]> {
     //     return this.http.get(this.heroesUrl)
@@ -71,14 +81,4 @@ export class HeroService {
     //     return Promise.reject(error.message || error);
     // }
 
-    getHeroes(): Observable<any> {
-        return this.http.get(this.heroesUrl).map(res => {
-            return res.json();
-        });
-    }
-
-    getHero(id: number) {
-        return this.getHeroes()
-            .subscribe(heroes => heroes.find(hero => hero.id === id));
-    }
 }

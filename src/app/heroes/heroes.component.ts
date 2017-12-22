@@ -30,7 +30,7 @@ export class HeroesComponent implements OnInit {
     this.heroService.getHeroes()
       .subscribe((data) => {
         console.log(data);
-        this.heroes = data['data']['heroes'];
+        this.heroes = data;
       });
   }
 
