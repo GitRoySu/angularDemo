@@ -13,12 +13,11 @@ import { Hero } from '../hero';
 import { HEROES } from '../mockHeroes';
 
 
-
 @Injectable()
 export class HeroService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    private heroesUrl = 'https://easy-mock.com/mock/5a387f8f75a0b747456a9959/example/heroes';
+    private heroesUrl = 'https://www.easy-mock.com/mock/5a406f826b299a5279fc825e/heroes';
 
     constructor(
         private httpClient: HttpClient,
@@ -26,9 +25,8 @@ export class HeroService {
     ) { }
 
     getHeroes(): Observable<any> {
-        return this.httpClient.get(this.heroesUrl).map(res => {
-            return res['data']['heroes'];
-        });
+        return this.httpClient.get(this.heroesUrl)
+            .map(res => res['data']['heroes']);
     }
 
     getHero(id: number): Observable<any> {

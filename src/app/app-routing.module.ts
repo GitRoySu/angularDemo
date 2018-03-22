@@ -8,7 +8,8 @@ export const routerConfig: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'heroes', component: HeroesComponent },
     { path: 'detail/:id', component: HeroDetailComponent },
-    { path: 'dashboard', component: DashboardComponent }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: '**', component: HeroesComponent }
 ];
 
 @NgModule({
